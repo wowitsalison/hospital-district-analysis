@@ -1,6 +1,5 @@
 import re
 import csv
-from districts import districts as districts_all
 
 # Load the full text
 with open("hospital_districts.txt", "r", encoding="utf-8") as f:
