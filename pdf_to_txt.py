@@ -16,17 +16,22 @@ def clean_line(line):
         return ""
     return line
 
+# Extract text from PDF and clean it
 def extract_text(pdf_path):
     text = ""
     with fitz.open(pdf_path) as doc:
         for page in doc:
             for line in page.get_text().splitlines():
                 cleaned = clean_line(line)
-                if cleaned.strip():
+                if cleaned != "":
                     text += cleaned + "\n"
+                else:
+                    continue
+
     return text
 
 extracted_text = extract_text(pdf_path)
 
+# Write text from pdf to txt file
 with open(txt_path, "w", encoding="utf-8") as file:
     file.write(extracted_text)
