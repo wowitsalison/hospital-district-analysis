@@ -29,6 +29,9 @@ term_pattern = re.compile(
 
 amend_eff_pattern = re.compile(r'Amended by:.*?eff\.\s*(\w+ \d{1,2}, \d{4})', re.IGNORECASE | re.DOTALL)
 
+# Regex to capture all "Acts ..." lines in the Amended by section
+acts_pattern = re.compile(r'Amended by:(.*?eff\.\s*\w+ \d{1,2}, \d{4}\.)', re.IGNORECASE | re.DOTALL)
+acts_line_pattern = re.compile(r'(Acts \d{4}.*?eff\.)', re.IGNORECASE)
 
 # Get the term lengths in years
 def extract_director_term(text):
@@ -51,6 +54,15 @@ def extract_amend_date(text):
         return None
     match = amend_eff_pattern.search(text)
     return match.group(1) if match else None
+
+def extract_acts_lines(text):
+    if not text:
+        return None
+    acts_section = acts_pattern.search(text)
+    if acts_section:
+        acts_lines = acts_line_pattern.findall(acts_section.group(1))
+        return " | ".join([line.replace('\n', ' ').strip() for line in acts_lines])
+    return None
 
 '''
 # Process each district and print (for debugging and checking)
@@ -84,9 +96,13 @@ for i in range(1, len(chapters), 4):
 # Put data into CSV
 with open("hospital_districts.csv", "w", newline="", encoding="utf-8") as csvfile:
     writer = csv.writer(csvfile)
-    writer.writerow(["Chapter Number", "District Name", "Director Term (years)", "Staggered?", "Last Amendment Date"])
+    writer.writerow([
+        "Chapter Number", "District Name", "Director Term (years)", "Staggered?",
+        "Last Amendment Date", "Amendment Legislation"
+    ])
 
     for chapter_num, district_name, body in chapter_data:
         director_term, staggered = extract_director_term(body)
         amend_date = extract_amend_date(body)
-        writer.writerow([chapter_num, district_name, director_term, staggered, amend_date])
+        acts_lines = extract_acts_lines(body)
+        writer.writerow([chapter_num, district_name, director_term, staggered, amend_date, acts_lines])
