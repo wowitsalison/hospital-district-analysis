@@ -1,7 +1,7 @@
 # Texas Hospital District Legislation Analysis
 This project analyzes the local laws regarding Texas Hospital Districts. It converts the laws given in PDF form to a .txt file, then takes the information from that .txt file, cleans it, and puts it into a pdf to be analyzed. 
 
-The reason for this project is to compare recent taxation law changes and attempts at changes by the Walker County Hospital District to other Texas Hospital Districts. This was done as research for *The Huntsvillan*, a local Walker County news site. Read the full story here: (link here when published)
+The reason for this project is to compare recent taxation law changes and attempts at changes by the Walker County Hospital District to other Texas Hospital Districts. 
 
 Original PDF to be analyzed: `specialdistrictlocallawscode.pdf`
 
