@@ -2,6 +2,7 @@
 (In progress)
 
 ## Results
+(Can also be found in `hospital_districts.csv`)
 
 |Chapter Number|District Name                                                 |Director Term (years)|Staggered?|Last Amendment Date|Amendment Legislation|Lease Length Limit (years)|Legislation Link                                                |
 |--------------|--------------------------------------------------------------|---------------------|----------|-------------------|---------------------|--------------------------|----------------------------------------------------------------|
