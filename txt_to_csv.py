@@ -23,8 +23,8 @@ number_words = {
 }
 
 term_pattern = re.compile(
-    r'serve[s]? (?:staggered )?(\d+|one|two|three|four|five|six|seven|eight|nine|ten)-year terms',
-    re.IGNORECASE
+    r'serve[s]?\s+(?:staggered\s+)?(\d+|one|two|three|four|five|six|seven|eight|nine|ten)\s*-\s*year\s+terms',
+    re.IGNORECASE | re.DOTALL
 )
 
 amend_eff_pattern = re.compile(r'Amended by:.*?eff\.\s*(\w+ \d{1,2}, \d{4})', re.IGNORECASE | re.DOTALL)
@@ -82,6 +82,18 @@ def extract_acts_legislation(text):
         return " | ".join(formatted) if formatted else None
     return None
 
+def extract_lease_limit(text):
+    if not text:
+        return None
+    lease_pattern = re.compile(
+        r'term\s+of\s+(a|the)\s+lease(?:\s+under\s+this\s+section)?\s+may\s+not\s+exceed\s+(\d+)\s+years',
+        re.IGNORECASE | re.DOTALL
+    )
+    match = lease_pattern.search(text)
+    if match:
+        return int(match.group(2))
+    return None
+
 '''
 # Process each district and print (for debugging and checking)
 for name, body in districts:
@@ -116,11 +128,12 @@ with open("hospital_districts.csv", "w", newline="", encoding="utf-8") as csvfil
     writer = csv.writer(csvfile)
     writer.writerow([
         "Chapter Number", "District Name", "Director Term (years)", "Staggered?",
-        "Last Amendment Date", "Amendment Legislation"
+        "Last Amendment Date", "Amendment Legislation", "Lease Length Limit (years)"
     ])
 
     for chapter_num, district_name, body in chapter_data:
         director_term, staggered = extract_director_term(body)
         amend_date = extract_amend_date(body)
         acts_legislation = extract_acts_legislation(body)
-        writer.writerow([chapter_num, district_name, director_term, staggered, amend_date, acts_legislation])
+        lease_limit = extract_lease_limit(body)
+        writer.writerow([chapter_num, district_name, director_term, staggered, amend_date, acts_legislation, lease_limit])
