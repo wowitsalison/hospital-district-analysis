@@ -64,6 +64,24 @@ def extract_acts_lines(text):
         return " | ".join([line.replace('\n', ' ').strip() for line in acts_lines])
     return None
 
+def extract_acts_legislation(text):
+    if not text:
+        return None
+    acts_section = acts_pattern.search(text)
+    if acts_section:
+        acts_lines = acts_line_pattern.findall(acts_section.group(1))
+        formatted = []
+        for line in acts_lines:
+            # Example: Acts 2013, 83rd Leg., R.S., Ch. 826 (S.B. 1861), Sec. 1, eff.
+            match = re.search(r'Acts (\d{4}).*?\((S\.B\.|H\.B\.) (\d+)\)', line)
+            if match:
+                year = match.group(1)
+                bill_type = match.group(2)
+                bill_num = match.group(3)
+                formatted.append(f"{year}, {bill_type} {bill_num}")
+        return " | ".join(formatted) if formatted else None
+    return None
+
 '''
 # Process each district and print (for debugging and checking)
 for name, body in districts:
@@ -104,5 +122,5 @@ with open("hospital_districts.csv", "w", newline="", encoding="utf-8") as csvfil
     for chapter_num, district_name, body in chapter_data:
         director_term, staggered = extract_director_term(body)
         amend_date = extract_amend_date(body)
-        acts_lines = extract_acts_lines(body)
-        writer.writerow([chapter_num, district_name, director_term, staggered, amend_date, acts_lines])
+        acts_legislation = extract_acts_legislation(body)
+        writer.writerow([chapter_num, district_name, director_term, staggered, amend_date, acts_legislation])
