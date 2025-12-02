@@ -128,7 +128,7 @@ with open("hospital_districts.csv", "w", newline="", encoding="utf-8") as csvfil
     writer = csv.writer(csvfile)
     writer.writerow([
         "Chapter Number", "District Name", "Director Term (years)", "Staggered?",
-        "Last Amendment Date", "Amendment Legislation", "Lease Length Limit (years)"
+        "Last Amendment Date", "Amendment Legislation", "Lease Length Limit (years), Legislation Link"
     ])
 
     for chapter_num, district_name, body in chapter_data:
