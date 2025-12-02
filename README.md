@@ -5,6 +5,14 @@ The reason for this project is to compare recent taxation law changes and attemp
 
 Original PDF to be analyzed: `specialdistrictlocallawscode.pdf`
 
+## Method
+
+1. Run `pdf_to_txt.py`. This converts the original pdf to a scrapable .txt file (`hospital_districts.txt`)
+2. Run `txt_to_csv.py`. This grabs and cleans the needed data from `hospital_districts.txt` and puts them into `hospital_districts.csv` for analysis.
+3. Manually add legislation links
+
+Some errors had to be manually fixed- a few amendment dates were added when the legislation had never been amended.
+
 ## Results
 (Can also be found in `hospital_districts.csv`)
 
