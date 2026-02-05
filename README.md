@@ -3,6 +3,8 @@ This project analyzes the local laws regarding Texas Hospital Districts. It conv
 
 The reason for this project is to compare recent taxation law changes and attempts at changes by the Walker County Hospital District to other Texas Hospital Districts. 
 
+[Read the final story here!](https://www.huntsvillan.com/hospital-district-board-of-managers-extends-own-terms-o/)
+
 Original PDF to be analyzed: `specialdistrictlocallawscode.pdf`
 
 ## Method
